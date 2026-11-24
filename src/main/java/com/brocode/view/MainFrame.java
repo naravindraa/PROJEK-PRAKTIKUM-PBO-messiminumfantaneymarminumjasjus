@@ -53,6 +53,10 @@ public class MainFrame extends javax.swing.JFrame {
         Refreshable view = pageViews.get(page);
         if (view != null) view.refresh();
         ((java.awt.CardLayout) pnlPages.getLayout()).show(pnlPages, page);
+        // Fade-in animation on the visible panel
+        if (view instanceof javax.swing.JComponent) {
+            Theme.fadeIn((javax.swing.JComponent) view);
+        }
     }
 
     @SuppressWarnings("unchecked")

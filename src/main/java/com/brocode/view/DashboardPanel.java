@@ -17,13 +17,14 @@ public class DashboardPanel extends javax.swing.JPanel implements Refreshable {
         this.db = db;
         this.queueService = queueService;
         initComponents();
-        Theme.styleCard(cardTotal);
-        Theme.styleCard(cardWaiting);
-        Theme.styleCard(cardProgress);
-        Theme.styleCard(cardCompleted);
-        Theme.styleCard(pnlRecent);
-        Theme.styleCard(pnlInsight);
+        Theme.makeRoundedCard(cardTotal);
+        Theme.makeRoundedCard(cardWaiting);
+        Theme.makeRoundedCard(cardProgress);
+        Theme.makeRoundedCard(cardCompleted);
+        Theme.makeRoundedCard(pnlRecent);
+        Theme.makeRoundedCard(pnlInsight);
         Theme.styleTable(tblRecent);
+        Theme.applyAlternatingRows(tblRecent);
         Theme.styleScroll(scrollRecent);
         refresh();
     }
@@ -31,10 +32,11 @@ public class DashboardPanel extends javax.swing.JPanel implements Refreshable {
     @Override
     public void refresh() {
         long waiting = count("Waiting");
-        lblTotalValue.setText(String.valueOf(db.queues.size()));
-        lblWaitingValue.setText(String.valueOf(waiting));
-        lblProgressValue.setText(String.valueOf(count("In Progress")));
-        lblCompletedValue.setText(String.valueOf(count("Completed")));
+        // Animated counters
+        Theme.animateCounter(lblTotalValue,     db.queues.size());
+        Theme.animateCounter(lblWaitingValue,   (int) waiting);
+        Theme.animateCounter(lblProgressValue,  (int) count("In Progress"));
+        Theme.animateCounter(lblCompletedValue, (int) count("Completed"));
 
         DefaultTableModel m = (DefaultTableModel) tblRecent.getModel();
         m.setRowCount(0);
@@ -42,6 +44,8 @@ public class DashboardPanel extends javax.swing.JPanel implements Refreshable {
             m.addRow(new Object[]{q.getNumber(), q.getCustomer().getName(), q.getService().getName(),
                 q.getBarber() == null ? "-" : q.getBarber().getName(), q.getStatus()});
         }
+        // Status badge renderer on "Status" column (index 4)
+        Theme.applyStatusRenderer(tblRecent, 4);
 
         Barber rec = queueService.recommendBarber();
         lblRecommended.setText(info("Recommended barber", rec == null ? "No active barber" : rec.getName()));

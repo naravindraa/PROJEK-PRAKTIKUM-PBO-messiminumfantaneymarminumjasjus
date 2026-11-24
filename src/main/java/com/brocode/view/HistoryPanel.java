@@ -15,6 +15,7 @@ public class HistoryPanel extends javax.swing.JPanel implements Refreshable {
         this.db = db;
         initComponents();
         Theme.styleTable(tblHistory);
+        Theme.applyAlternatingRows(tblHistory);
         Theme.styleScroll(scrollTable);
         refresh();
     }

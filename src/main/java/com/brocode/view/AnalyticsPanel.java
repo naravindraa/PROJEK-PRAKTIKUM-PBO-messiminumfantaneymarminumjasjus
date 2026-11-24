@@ -15,18 +15,19 @@ public class AnalyticsPanel extends javax.swing.JPanel implements Refreshable {
         this.db = db;
         this.queueService = queueService;
         initComponents();
-        Theme.styleCard(cardVisits);
-        Theme.styleCard(cardDone);
-        Theme.styleCard(cardCancelled);
-        Theme.styleCard(pnlChart);
+        Theme.makeRoundedCard(cardVisits);
+        Theme.makeRoundedCard(cardDone);
+        Theme.makeRoundedCard(cardCancelled);
+        Theme.makeRoundedCard(pnlChart);
         refresh();
     }
 
     @Override
     public void refresh() {
-        lblVisitsValue.setText(String.valueOf(db.queues.size()));
-        lblDoneValue.setText(String.valueOf(count("Completed")));
-        lblCancelledValue.setText(String.valueOf(count("Cancelled")));
+        // Animated counters
+        Theme.animateCounter(lblVisitsValue,    db.queues.size());
+        Theme.animateCounter(lblDoneValue,      (int) count("Completed"));
+        Theme.animateCounter(lblCancelledValue, (int) count("Cancelled"));
 
         pnlBars.removeAll();
         Map<Integer, Long> peak = queueService.peakHours();
@@ -36,6 +37,8 @@ public class AnalyticsPanel extends javax.swing.JPanel implements Refreshable {
             line.setOpaque(false);
             javax.swing.JLabel l = new javax.swing.JLabel(String.format("%02d:00", hour));
             l.setForeground(Theme.TEXT);
+            l.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 12));
+            l.setPreferredSize(new java.awt.Dimension(52, 0));
             javax.swing.JProgressBar bar = new javax.swing.JProgressBar(0, (int) max);
             bar.setValue(total.intValue());
             bar.setString(total + " queue");

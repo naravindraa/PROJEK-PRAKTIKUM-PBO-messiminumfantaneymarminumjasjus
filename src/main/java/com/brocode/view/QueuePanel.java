@@ -17,6 +17,7 @@ public class QueuePanel extends javax.swing.JPanel implements Refreshable {
         this.queueService = queueService;
         initComponents();
         Theme.styleTable(tblQueue);
+        Theme.applyAlternatingRows(tblQueue);
         Theme.styleScroll(scrollTable);
         tblQueue.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         Theme.styleButton(btnNew, true);
@@ -36,6 +37,8 @@ public class QueuePanel extends javax.swing.JPanel implements Refreshable {
                 q.getBarber() == null ? "-" : q.getBarber().getName(), q.getDurationSnapshot() + " min", q.getStatus(),
                 q.getStatus().equals("Waiting") ? queueService.estimatedWait(q.getBarber()) + " min" : "-"});
         }
+        // Apply status badge renderer on "Status" column (index 5)
+        Theme.applyStatusRenderer(tblQueue, 5);
     }
 
     private java.awt.Frame frame() {

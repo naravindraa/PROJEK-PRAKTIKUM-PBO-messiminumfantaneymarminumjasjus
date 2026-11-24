@@ -14,6 +14,7 @@ public class CustomersPanel extends javax.swing.JPanel implements Refreshable {
         this.db = db;
         initComponents();
         Theme.styleTable(tblData);
+        Theme.applyAlternatingRows(tblData);
         Theme.styleScroll(scrollTable);
         Theme.styleButton(btnAdd, true);
         Theme.styleButton(btnEdit, false);
