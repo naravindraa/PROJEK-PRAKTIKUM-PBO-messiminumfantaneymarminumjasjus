@@ -127,7 +127,8 @@ public class BarbersPanel extends javax.swing.JPanel implements Refreshable {
         BarberDialog d = new BarberDialog(frame(), "Add Barber", null);
         d.setVisible(true);
         if (d.isConfirmed()) {
-            db.barbers.add(new Barber(db.nextBarberId(), d.getBarberName(), d.isBarberActive()));
+            try { db.addBarber(d.getBarberName(), d.isBarberActive()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -139,8 +140,8 @@ public class BarbersPanel extends javax.swing.JPanel implements Refreshable {
         BarberDialog d = new BarberDialog(frame(), "Edit Barber", b);
         d.setVisible(true);
         if (d.isConfirmed()) {
-            b.setName(d.getBarberName());
-            b.setActive(d.isBarberActive());
+            try { db.updateBarber(b, d.getBarberName(), d.isBarberActive()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -148,7 +149,8 @@ public class BarbersPanel extends javax.swing.JPanel implements Refreshable {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int r = selectedIndex();
         if (r < 0) return;
-        db.barbers.remove(r);
+        try { db.deleteBarber(db.barbers.get(r)); }
+        catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
         refresh();
     }//GEN-LAST:event_btnDeleteActionPerformed
 

@@ -127,7 +127,8 @@ public class CustomersPanel extends javax.swing.JPanel implements Refreshable {
         CustomerDialog d = new CustomerDialog(frame(), "Add Customer", null);
         d.setVisible(true);
         if (d.isConfirmed()) {
-            db.customers.add(new Customer(db.nextCustomerId(), d.getCustomerName(), d.getPhone()));
+            try { db.addCustomer(d.getCustomerName(), d.getPhone()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -139,8 +140,8 @@ public class CustomersPanel extends javax.swing.JPanel implements Refreshable {
         CustomerDialog d = new CustomerDialog(frame(), "Edit Customer", c);
         d.setVisible(true);
         if (d.isConfirmed()) {
-            c.setName(d.getCustomerName());
-            c.setPhone(d.getPhone());
+            try { db.updateCustomer(c, d.getCustomerName(), d.getPhone()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -148,7 +149,8 @@ public class CustomersPanel extends javax.swing.JPanel implements Refreshable {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int r = selectedIndex();
         if (r < 0) return;
-        db.customers.remove(r);
+        try { db.deleteCustomer(db.customers.get(r)); }
+        catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
         refresh();
     }//GEN-LAST:event_btnDeleteActionPerformed
 

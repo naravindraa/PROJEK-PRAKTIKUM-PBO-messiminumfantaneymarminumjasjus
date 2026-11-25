@@ -1,4 +1,5 @@
-CREATE DATABASE IF NOT EXISTS brocode_queue;
+DROP DATABASE IF EXISTS brocode_queue;
+CREATE DATABASE brocode_queue;
 USE brocode_queue;
 
 CREATE TABLE users (

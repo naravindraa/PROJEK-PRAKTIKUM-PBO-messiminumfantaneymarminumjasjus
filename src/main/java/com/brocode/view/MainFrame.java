@@ -37,7 +37,8 @@ public class MainFrame extends javax.swing.JFrame {
         addPage("Analytics", new AnalyticsPanel(db, queueService));
         addPage("History", new HistoryPanel(db));
 
-        lblHeaderInfo.setText("Brocode Barbershop Jatinangor  \u2022  " + java.time.LocalDate.now());
+        lblHeaderInfo.setText("Brocode Barbershop Jatinangor  \u2022  " + java.time.LocalDate.now()
+                + "  \u2022  " + (db.isDatabaseMode() ? "MySQL" : "Demo (in-memory)"));
         setLocationRelativeTo(null);
         showPage("Dashboard");
     }

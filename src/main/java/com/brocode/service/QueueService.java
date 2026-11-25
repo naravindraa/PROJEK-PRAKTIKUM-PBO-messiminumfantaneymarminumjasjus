@@ -23,10 +23,11 @@ public class QueueService {
             .mapToInt(QueueEntry::getDurationSnapshot).sum();
     }
     public void changeStatus(QueueEntry q,String next){
-        String old=q.getStatus(); q.setStatus(next);
-        if(next.equals("In Progress"))q.setStartedAt(LocalDateTime.now());
-        if(next.equals("Completed")||next.equals("Cancelled"))q.setFinishedAt(LocalDateTime.now());
-        db.history.add(new QueueHistory(q.getNumber(),old,next,LocalDateTime.now()));
+        String old=q.getStatus(); LocalDateTime now=LocalDateTime.now().withNano(0);
+        LocalDateTime started=q.getStartedAt(), finished=q.getFinishedAt();
+        if(next.equals("In Progress"))started=now;
+        if(next.equals("Completed")||next.equals("Cancelled"))finished=now;
+        db.updateQueueStatus(q,old,next,started,finished);
     }
     public String nextQueueNumber(){
         String date=java.time.LocalDate.now().toString().replace("-","");

@@ -10,9 +10,11 @@ import javax.swing.DefaultComboBoxModel;
 public class QueueDialog extends javax.swing.JDialog {
 
     private boolean confirmed;
+    private final DemoDataStore db;
 
     public QueueDialog(java.awt.Frame parent, DemoDataStore db, QueueService queueService) {
         super(parent, true);
+        this.db = db;
         initComponents();
         setTitle("Register Queue");
         getContentPane().setBackground(Theme.PANEL);
@@ -144,6 +146,16 @@ public class QueueDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        Customer selected = getSelectedCustomer();
+        if (selected != null && db != null && db.isCustomerInProgress(selected)) {
+            javax.swing.JOptionPane.showMessageDialog(
+                this,
+                "Customer \"" + selected.getName() + "\" sedang dalam layanan (In Progress) dan tidak bisa mengambil service lagi sebelum selesai.",
+                "Layanan Sedang Berjalan",
+                javax.swing.JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
         confirmed = true;
         dispose();
     }//GEN-LAST:event_btnSaveActionPerformed

@@ -41,9 +41,14 @@ Tips:
 - ETA/rekomendasi barber dan ringkasan jam ramai dihitung dari data antrean demo.
 - Skema MySQL enam tabel tersedia di `database/schema.sql`.
 
-## Koneksi MySQL
-UI starter ini masih memakai `DemoDataStore` (in-memory), jadi perubahan akan hilang saat aplikasi ditutup. File `database/schema.sql` adalah skema awal untuk tahap integrasi JDBC/DAO. Dependensi MySQL Connector/J sudah disiapkan di `pom.xml`, dan konfigurasi koneksi contoh ada di `config/DatabaseConfig.java`.
-Jangan simpan password database produksi di source code.
+## Koneksi MySQL (Laragon)
+Aplikasi sekarang membaca/menulis ke MySQL lewat JDBC (`DemoDataStore` -> `DatabaseConfig`).
+1. Laragon -> Start All (MySQL port 3306).
+2. HeidiSQL -> File -> Load SQL file -> `database/schema.sql` -> Execute (F9).
+3. Jalankan juga `database/seed.sql` untuk data awal (opsional).
+4. NetBeans: Reload Project -> Clean and Build -> Run. Header aplikasi menampilkan "MySQL" bila terhubung.
+Jika MySQL mati / database belum di-import, aplikasi otomatis memakai data demo in-memory (header: "Demo (in-memory)").
+Setting bisa diubah lewat environment variable `BROCODE_DB_URL`, `BROCODE_DB_USER`, `BROCODE_DB_PASSWORD`.
 
 ## Struktur package
 - `model`: entitas User, Customer, ServiceItem, Barber, QueueEntry, QueueHistory

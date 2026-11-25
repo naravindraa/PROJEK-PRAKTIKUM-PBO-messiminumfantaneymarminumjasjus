@@ -129,7 +129,8 @@ public class ServicesPanel extends javax.swing.JPanel implements Refreshable {
         ServiceDialog d = new ServiceDialog(frame(), "Add Service", null);
         d.setVisible(true);
         if (d.isConfirmed()) {
-            db.services.add(new ServiceItem(db.nextServiceId(), d.getServiceName(), d.getDurationMin(), d.getPrice()));
+            try { db.addService(d.getServiceName(), d.getDurationMin(), d.getPrice()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -141,9 +142,8 @@ public class ServicesPanel extends javax.swing.JPanel implements Refreshable {
         ServiceDialog d = new ServiceDialog(frame(), "Edit Service", s);
         d.setVisible(true);
         if (d.isConfirmed()) {
-            s.setName(d.getServiceName());
-            s.setDurationMin(d.getDurationMin());
-            s.setPrice(d.getPrice());
+            try { db.updateService(s, d.getServiceName(), d.getDurationMin(), d.getPrice()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnEditActionPerformed
@@ -151,7 +151,8 @@ public class ServicesPanel extends javax.swing.JPanel implements Refreshable {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int r = selectedIndex();
         if (r < 0) return;
-        db.services.remove(r);
+        try { db.deleteService(db.services.get(r)); }
+        catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
         refresh();
     }//GEN-LAST:event_btnDeleteActionPerformed
 

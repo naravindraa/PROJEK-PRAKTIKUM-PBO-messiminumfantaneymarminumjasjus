@@ -55,7 +55,12 @@ public class QueuePanel extends javax.swing.JPanel implements Refreshable {
             warn("Pilih antrean terlebih dahulu.");
             return null;
         }
-        return db.queues.get(r);
+        int modelRow = tblQueue.convertRowIndexToModel(r);
+        if (modelRow < 0 || modelRow >= db.queues.size()) {
+            warn("Data antrean tidak valid. Silakan muat ulang.");
+            return null;
+        }
+        return db.queues.get(modelRow);
     }
 
     private void changeSelected(String status) {
@@ -64,7 +69,23 @@ public class QueuePanel extends javax.swing.JPanel implements Refreshable {
         if (status.equals("In Progress") && !q.getStatus().equals("Waiting")) { warn("Hanya antrean Waiting yang dapat dimulai."); return; }
         if (status.equals("Completed") && !q.getStatus().equals("In Progress")) { warn("Hanya antrean In Progress yang dapat diselesaikan."); return; }
         if (status.equals("Cancelled") && !(q.getStatus().equals("Waiting") || q.getStatus().equals("In Progress"))) { warn("Status ini tidak dapat dibatalkan."); return; }
-        queueService.changeStatus(q, status);
+        if (status.equals("In Progress")) {
+            if (q.getBarber() == null) {
+                warn("Tentukan barber terlebih dahulu sebelum memulai service.");
+                return;
+            }
+            if (db.isCustomerInProgressExcept(q.getCustomer(), q.getId())) {
+                warn("Customer \"" + q.getCustomer().getName() + "\" sedang In Progress dan tidak bisa In Progress lagi sebelum selesai.");
+                return;
+            }
+            if (db.isBarberInProgressExcept(q.getBarber(), q.getId())) {
+                warn("Barber \"" + q.getBarber().getName() + "\" sedang melakukan service lain (In Progress) dan tidak bisa service lagi sebelum selesai.");
+                return;
+            }
+        }
+        try { queueService.changeStatus(q, status); }
+        catch (IllegalStateException ex) { warn(ex.getMessage()); }
+        catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
         refresh();
     }
 
@@ -186,10 +207,9 @@ public class QueuePanel extends javax.swing.JPanel implements Refreshable {
         d.setVisible(true);
         if (d.isConfirmed()) {
             ServiceItem sv = d.getSelectedService();
-            QueueEntry q = new QueueEntry(db.nextQueueId(), queueService.nextQueueNumber(), d.getSelectedCustomer(), sv,
-                    d.getSelectedBarber(), sv.getDurationMin(), "Waiting", java.time.LocalDateTime.now());
-            db.queues.add(q);
-            db.history.add(new QueueHistory(q.getNumber(), null, "Waiting", java.time.LocalDateTime.now()));
+            try { db.createQueue(queueService.nextQueueNumber(), d.getSelectedCustomer(), sv, d.getSelectedBarber()); }
+            catch (IllegalStateException ex) { warn(ex.getMessage()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnNewActionPerformed
@@ -197,9 +217,15 @@ public class QueuePanel extends javax.swing.JPanel implements Refreshable {
     private void btnAssignActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAssignActionPerformed
         QueueEntry q = selectedQueue();
         if (q == null) return;
+        if (!"Waiting".equals(q.getStatus())) {
+            warn("Barber hanya dapat diganti saat antrean berstatus Waiting.");
+            return;
+        }
         Barber rec = queueService.recommendBarber();
         if (rec != null) {
-            q.setBarber(rec);
+            try { db.assignBarber(q, rec); }
+            catch (IllegalStateException ex) { warn(ex.getMessage()); }
+            catch (RuntimeException ex) { javax.swing.JOptionPane.showMessageDialog(frame(), com.brocode.service.DemoDataStore.errorMessage(ex), "Database", javax.swing.JOptionPane.ERROR_MESSAGE); }
             refresh();
         }
     }//GEN-LAST:event_btnAssignActionPerformed
