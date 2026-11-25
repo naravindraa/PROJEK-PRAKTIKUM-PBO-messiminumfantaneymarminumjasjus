@@ -43,59 +43,60 @@ public class CustomerDialog extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
-        getContentPane().setLayout(new java.awt.BorderLayout());
+
         pnlForm.setBackground(new java.awt.Color(30, 33, 38));
         pnlForm.setBorder(javax.swing.BorderFactory.createEmptyBorder(18, 18, 8, 18));
-        lblName.setFont(new java.awt.Font("SansSerif", 1, 12));
+        pnlForm.setPreferredSize(new java.awt.Dimension(400, 300));
+
+        lblName.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         lblName.setForeground(new java.awt.Color(239, 237, 232));
         lblName.setText("Name");
 
         txtName.setBackground(new java.awt.Color(39, 43, 49));
-        txtName.setForeground(new java.awt.Color(239, 237, 232));
         txtName.setColumns(20);
-        txtName.setText("");
+        txtName.setForeground(new java.awt.Color(239, 237, 232));
 
-        lblPhone.setFont(new java.awt.Font("SansSerif", 1, 12));
+        lblPhone.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         lblPhone.setForeground(new java.awt.Color(239, 237, 232));
         lblPhone.setText("Phone");
 
         txtPhone.setBackground(new java.awt.Color(39, 43, 49));
-        txtPhone.setForeground(new java.awt.Color(239, 237, 232));
         txtPhone.setColumns(20);
-        txtPhone.setText("");
+        txtPhone.setForeground(new java.awt.Color(239, 237, 232));
 
-        javax.swing.GroupLayout pnlFormLayout = new javax.swing.GroupLayout(pnlForm);
+        org.jdesktop.layout.GroupLayout pnlFormLayout = new org.jdesktop.layout.GroupLayout(pnlForm);
         pnlForm.setLayout(pnlFormLayout);
         pnlFormLayout.setHorizontalGroup(
-            pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlFormLayout.createSequentialGroup()
-                .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                    .addComponent(txtPhone, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)))
+            pnlFormLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlFormLayout.createSequentialGroup()
+                .add(pnlFormLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(lblName)
+                    .add(lblPhone))
+                .add(12, 12, 12)
+                .add(pnlFormLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(txtName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .add(txtPhone, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)))
         );
         pnlFormLayout.setVerticalGroup(
-            pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlFormLayout.createSequentialGroup()
-                .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(12, 12, 12)
-                .addGroup(pnlFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            pnlFormLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(pnlFormLayout.createSequentialGroup()
+                .add(pnlFormLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblName)
+                    .add(txtName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(12, 12, 12)
+                .add(pnlFormLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblPhone)
+                    .add(txtPhone, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(0, 0, Short.MAX_VALUE))
         );
+
         getContentPane().add(pnlForm, java.awt.BorderLayout.CENTER);
 
         pnlButtons.setBackground(new java.awt.Color(30, 33, 38));
         pnlButtons.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 8, 10));
+
         btnCancel.setBackground(new java.awt.Color(39, 43, 49));
-        btnCancel.setFont(new java.awt.Font("SansSerif", 1, 12));
+        btnCancel.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(239, 237, 232));
         btnCancel.setFocusPainted(false);
         btnCancel.setText("Cancel");
@@ -107,7 +108,7 @@ public class CustomerDialog extends javax.swing.JDialog {
         pnlButtons.add(btnCancel);
 
         btnSave.setBackground(new java.awt.Color(91, 58, 39));
-        btnSave.setFont(new java.awt.Font("SansSerif", 1, 12));
+        btnSave.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         btnSave.setForeground(new java.awt.Color(239, 237, 232));
         btnSave.setFocusPainted(false);
         btnSave.setText("OK");
